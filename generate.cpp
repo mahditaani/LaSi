@@ -4,6 +4,33 @@
 #include "generate.h"
 
 
+bool pmtQE(double l){
+//    std::cout << "Lambda: "<< l<<std::endl;
+    std::default_random_engine generator(rand());
+    std::uniform_real_distribution<double> distribution(0.0, 100);
+    double rand = distribution(generator);
+
+    if (l >= 2.75e-7 && l<=3.5e-7){
+        double m = 400000000; //gradient for first part of QE
+        double qe = m*(l-2.75e-7);
+        if (rand<= qe) {
+//            std::cout << "QE: "<<qe<<" ranval: "<< rand<<std::endl;
+            return true;} else {return false;}
+
+    }
+    else if (l > 3.5e-7 && l<=6.25e-7){
+        double m = -109090909.091; //gradient for first part of QE
+        double qe = m*(l-3.5e-7)+30;
+        if (rand <= qe) {
+//            std::cout << "QE: "<<qe<<" ranval: "<< rand<<std::endl;
+            return true;} else {return false;}
+
+    }
+    else {return false;}
+
+
+}
+
 std::vector<Muon> GenMuons(int n, double eLow, double eHigh){
 
 //n = number of muons to generate
@@ -40,30 +67,38 @@ int PhotonsDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLengt
 
     int pDetected = 0;
     int nPhot = _muon.GetNumPhot();
-    //std::cout << "Total Photons: " << nPhot <<std::endl;
+//    std::cout << "Total Photons: " << nPhot <<std::endl;
 
     double angleDiff = 2*PI/nPhot;
 
     double height = _muon.GetVtx(2) - pmtVtx[2]; //Difference between the pmt and muon in the z direction (upwards).
 
     double cAng = EnergyToCherenkovAngle(_muon.GetE(), quartzRefractiveIndex,_muon.GetM() );
-//std::cout << "Cherenkov Angle: " << cAng <<std::endl;
+//    std::cout << "Cherenkov Angle: " << cAng <<std::endl;
 
-    double hyp = sin(cAng ); //projection on the z = 0 plane.
-    //std::cout << "Hypot : " << hyp <<std::endl;
+//    double hyp = sin(cAng ); //projection on the z = 0 plane.
+    double hyp = height*tan(cAng ); //projection on the z = 0 plane.
+//    std::cout << "Hypot : " << hyp <<std::endl;
 
     for(int i = 0; i < nPhot; i++)
     {
-        double xVal = hyp*cos(i*angleDiff);
-        double yVal = hyp*sin(i*angleDiff);
+//        double xVal = hyp*cos(i*angleDiff);
+//        double yVal = hyp*sin(i*angleDiff);
+        double xVal = hyp*cos(i*angleDiff)+ _muon.GetVtx(0);
+        //std::cout <<"xvalPhot: " << xVal <<std::endl;
+        double yVal = hyp*sin(i*angleDiff)+_muon.GetVtx(1);
+        //std::cout <<"yvalPhot: " << yVal <<std::endl;
+//        std::cout <<xVal<<" " << yVal <<std::endl;
         double point[2] = {xVal, yVal};
 
 /*
 if (withWLSP && InSquare(point, pmtLength)) {percentDetected++;} // Add detected virtual hit if WLS and in the Sqare (WLS plate).
 if (!withWLSP && InCircle(point, pmtLength)) {percentDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
 */
-        if (withWLSP && InSquare(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if WLS and in the Sqare (WLS plate).
-        if (!withWLSP && InCircle(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
+//        if (withWLSP && InSquare(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if WLS and in the Square (WLS plate).
+//        if (!withWLSP && InCircle(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
+        if (withWLSP && InSquare(point, pmtLength, pmtVtx[0], pmtVtx[1])&& pmtQE(_muon.GetPhoton(i).lambda())) {pDetected++;} // Add detected virtual hit if WLS and in the Square (WLS plate).
+        if (!withWLSP && InCircle(point, pmtLength, pmtVtx[0], pmtVtx[1])&& pmtQE(_muon.GetPhoton(i).lambda())) {pDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
 
     } // End of for loop counting virtual hits.
 
@@ -91,8 +126,12 @@ double PercentDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLe
 
     for(int i = 0; i < 100; i++)
     {
-        double xVal = hyp*cos(ToRad(i*3.6));
-        double yVal = hyp*sin(ToRad(i*3.6));
+//        double xVal = hyp*cos(ToRad(i*3.6));
+//        double yVal = hyp*sin(ToRad(i*3.6));
+        double xVal = hyp*cos(ToRad(i*3.6))+_muon.GetVtx(0);
+//        std::cout <<"xvalPhot: " << xVal <<std::endl;
+        double yVal = hyp*sin(ToRad(i*3.6))+_muon.GetVtx(1);
+//        std::cout <<"yvalPhot: " << yVal <<std::endl;
         double point[2] = {xVal, yVal};
 
 /*

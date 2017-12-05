@@ -31,7 +31,7 @@ std::vector<Photon> Muon::genPhotons(double x, double minL, double maxL, double 
     pVec.reserve(nToGen);
 
     for (auto i = 0; i < nToGen; ++i ){
-        double lambVal = genRan->Uniform(minL,maxL)*(maxL - minL);
+        double lambVal = genRan->Uniform(minL,maxL);//*(maxL - minL);
         pVec.push_back(lambVal);
     }
     return pVec;
