@@ -4,7 +4,7 @@
 #include "generate.h"
 
 
-bool pmtQE(double l){
+bool pmtQE(double l){//Simulates the QE of the pmt rejecting hits accordingly.
 //    std::cout << "Lambda: "<< l<<std::endl;
     std::default_random_engine generator(rand());
     std::uniform_real_distribution<double> distribution(0.0, 100);
@@ -19,7 +19,7 @@ bool pmtQE(double l){
 
     }
     else if (l > 3.5e-7 && l<=6.25e-7){
-        double m = -109090909.091; //gradient for first part of QE
+        double m = -109090909.091; //gradient for second part of QE
         double qe = m*(l-3.5e-7)+30;
         if (rand <= qe) {
 //            std::cout << "QE: "<<qe<<" ranval: "<< rand<<std::endl;
@@ -29,7 +29,7 @@ bool pmtQE(double l){
     else {return false;}
 
 
-}
+}//End of pmtQE function.
 
 std::vector<Muon> GenMuons(int n, double eLow, double eHigh){
 
@@ -40,8 +40,6 @@ std::vector<Muon> GenMuons(int n, double eLow, double eHigh){
 
     for (int i= 0; i < n; i++)
     {
-//vtx
-//
         double vtx[3];
 
         RandomUniformInCircle(vtx, quartzDiameter/2); //Generates a random point in a circle (quartz plate).
@@ -82,8 +80,6 @@ int PhotonsDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLengt
 
     for(int i = 0; i < nPhot; i++)
     {
-//        double xVal = hyp*cos(i*angleDiff);
-//        double yVal = hyp*sin(i*angleDiff);
         double xVal = hyp*cos(i*angleDiff)+ _muon.GetVtx(0);
         //std::cout <<"xvalPhot: " << xVal <<std::endl;
         double yVal = hyp*sin(i*angleDiff)+_muon.GetVtx(1);
@@ -91,12 +87,6 @@ int PhotonsDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLengt
 //        std::cout <<xVal<<" " << yVal <<std::endl;
         double point[2] = {xVal, yVal};
 
-/*
-if (withWLSP && InSquare(point, pmtLength)) {percentDetected++;} // Add detected virtual hit if WLS and in the Sqare (WLS plate).
-if (!withWLSP && InCircle(point, pmtLength)) {percentDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
-*/
-//        if (withWLSP && InSquare(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if WLS and in the Square (WLS plate).
-//        if (!withWLSP && InCircle(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
         if (withWLSP && InSquare(point, pmtLength, pmtVtx[0], pmtVtx[1])&& pmtQE(_muon.GetPhoton(i).lambda())) {pDetected++;} // Add detected virtual hit if WLS and in the Square (WLS plate).
         if (!withWLSP && InCircle(point, pmtLength, pmtVtx[0], pmtVtx[1])&& pmtQE(_muon.GetPhoton(i).lambda())) {pDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
 
@@ -126,18 +116,12 @@ double PercentDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLe
 
     for(int i = 0; i < 100; i++)
     {
-//        double xVal = hyp*cos(ToRad(i*3.6));
-//        double yVal = hyp*sin(ToRad(i*3.6));
         double xVal = hyp*cos(ToRad(i*3.6))+_muon.GetVtx(0);
 //        std::cout <<"xvalPhot: " << xVal <<std::endl;
         double yVal = hyp*sin(ToRad(i*3.6))+_muon.GetVtx(1);
 //        std::cout <<"yvalPhot: " << yVal <<std::endl;
         double point[2] = {xVal, yVal};
 
-/*
-if (withWLSP && InSquare(point, pmtLength)) {percentDetected++;} // Add detected virtual hit if WLS and in the Sqare (WLS plate).
-if (!withWLSP && InCircle(point, pmtLength)) {percentDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
-*/
         if (withWLSP && InSquare(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if WLS and in the Sqare (WLS plate).
         if (!withWLSP && InCircle(point, pmtLength, pmtVtx[0], pmtVtx[1])) {pDetected++;} // Add detected virtual hit if no WLS and in the circle (pmt area).
 
@@ -147,38 +131,4 @@ if (!withWLSP && InCircle(point, pmtLength)) {percentDetected++;} // Add detecte
 
     return (double)pDetected/100;
 }// End of PercentDetected function.
-/*
-double nPhotons(double x, double minL, double maxL, double energy, double mass){
-
-    // Generate photons x = path length, minL, maxL = range of wavelengths (in m)
-    // energy = energy of particle, mass = mass of particle
-    // sc = sin of Cherenkov angle
-
-    double beta = E2P(energy, mass)/energy;
-    double sc = sin( acos(1/(quartzRefractiveIndex*beta) ) );
-    const double f = ((1./minL) - (1/maxL));
-    double mu = 2*PI*sc*sc*f*x*alpha;
-
-    return genRan->Poisson(mu);
-}
-std::vector<Photon> genPhotons(double x, double minL, double maxL, double energy, double mass){
-
-    // Generate a vector of photons
-    // Generate photons x = path length, minL, maxL = range of wavelengths (in m)
-    // sc = sin of Cherenkov angle
-    // output list of photons Photons
-
-    // get number of photons
-    std::vector<Photon> pVec;
-    double nToGen = nPhotons(x,minL,maxL,energy, mass);
-    pVec.reserve(nToGen);
-
-    for (auto i = 0; i < nToGen; ++i ){
-        double lambVal = genRan->Uniform(minL,maxL)*(maxL - minL);
-        pVec.push_back(lambVal);
-    }
-    return pVec;
-}
-*/
-
 

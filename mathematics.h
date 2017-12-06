@@ -5,11 +5,14 @@
 #ifndef LASI_MATHEMATICS_H
 #define LASI_MATHEMATICS_H
 
-
+//C++ INCLUDES
 #include "math.h"
 #include <random>
 
+//Variable used from global
 extern double quartzPos[];
+
+
 #define PI 3.14159265
 
 

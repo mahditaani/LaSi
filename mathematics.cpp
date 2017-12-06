@@ -2,7 +2,6 @@
 // Created by mahdi on 05/12/17.
 //
 #include "mathematics.h"
-//#include "global.h"
 
 double ToRad(double inDeg){ // Converts degrees to radians.
     return inDeg*PI/180;
@@ -11,7 +10,7 @@ double ToRad(double inDeg){ // Converts degrees to radians.
 double ToDeg(double i){return i*180/PI;}//Converts radians to degrees.
 
 
-bool InSquare(double _vtx[2], double _length){// Function to check if a calue is in a square of a given length centered at 0,0.
+bool InSquare(double _vtx[2], double _length){// Function to check if a value is in a square of a given length centered at 0,0.
 
     bool inside = false;
     if (_vtx[0] > - _length/2 && _vtx[1] < _length/2){inside = true;}
@@ -21,7 +20,7 @@ bool InSquare(double _vtx[2], double _length){// Function to check if a calue is
 
 }// End of InSquare function.
 
-bool InSquare(double _vtx[2], double _length, double x, double y){// Function to check if a calue is in a square of a given length centered at 0,0.
+bool InSquare(double _vtx[2], double _length, double x, double y){// Function to check if a calue is in a square of a given length centered at x,y.
 
     bool inside = false;
     if (_vtx[0] > (- _length/2 + x) && _vtx[1] < (_length/2 +x)){inside = true;}
@@ -48,7 +47,6 @@ bool InCircle(double _vtx[2], double _radius, double xOff, double yOff){ // Func
     bool inside = false;
     double x = _vtx[0];
     double y = _vtx[1];
-//double val = sqrt( pow(x,2) + pow(y,2));
     double val = sqrt( pow((x-xOff),2) + pow((y-yOff),2));
 
     if (val < _radius) {inside = true;}
@@ -61,11 +59,10 @@ void RotatePlate(double val[3], double angle){//This function rotates the plate 
     double x = val[0];
     val[2] = z*cos(ToRad(angle)) - x*sin(ToRad(angle));
     val[0] = z*sin(ToRad(angle)) + x*cos(ToRad(angle));
-//val[1] = val[1]; //Not needed but here for completeness.
 
-}
+}//End of RotatePlate function.
 
-void RandomUniformInCircle(double point[3], double radius){
+void RandomUniformInCircle(double point[3], double radius){//Generates points distributed randomly and uniformly in a circle with a given radius.
     double theta;
     double r;
 
@@ -83,7 +80,7 @@ void RandomUniformInCircle(double point[3], double radius){
 
 
 
-}
+}//End of RandomUniformInCircle function.
 
 
 

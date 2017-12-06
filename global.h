@@ -5,8 +5,13 @@
 #ifndef LASI_GLOBAL_H
 #define LASI_GLOBAL_H
 
+//ROOT INCLUDES
 #include "TRandom.h"
+
+//C++ INCLUDES
 #include <vector>
+
+//LaSi INCLUDES
 #include "mathematics.h"
 
 
@@ -26,7 +31,6 @@ double pmtPos[3] = {0,0,0};//H1  //in m. //THIS DEFINES THE CENTER OF THE GEOMET
 //double pmtPos[3] = {-0.24,0,0};//H7  //in m.
 //double pmtPos[3] = {-0.28,0,0};//H8  //in m.
 double pmtDiameter = 0.078; //in m.
-//double pmtQE[] = {}; // can perhaps make this better using the wavelength valuesfrom the data sheet of the pmt. Make it an array instead.
 
 
 bool withWLS = false;
@@ -36,7 +40,6 @@ double WLSThickness = 0.013; //in m.
 double wavelengthLow = 2.75e-7;
 double wavelengthHigh = 6.25e-7;
 
-//double cherenkovAngle = 45; //Cherenkov cone angle in degrees.
 
 double alpha = 1/137.035999139;
 double nc = 1.46;

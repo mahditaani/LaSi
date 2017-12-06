@@ -1,7 +1,11 @@
+//C++ INCLUDES
 #include <iostream>
+
+//LaSi INCLUDES
 #include "global.h"
 #include "generate.h"
 
+//ROOT INCLUDES
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TCanvas.h"
@@ -9,7 +13,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 
-int main() {
+int main() {//Start of the main function.
 
     bool verbosity = true;
     int seed = 12345;
@@ -25,10 +29,16 @@ int main() {
     TFile *f1 = new TFile("SimulationResults.root", "RECREATE");
 
     TH2D *hx = new TH2D ("Number of Hits vs X", "Number of Hits vs X", 20, 0.0, 0.2, 8, 0, 40);
+    hx->GetXaxis()->SetTitle("Muon X position [m]");
+    hx->GetYaxis()->SetTitle("Number of Photons Detected");
     TH2D *hy = new TH2D ("Number of Hits vs Y", "Number of Hits vs Y", 20, -0.1, 0.1, 8, 0, 40);
+    hy->GetXaxis()->SetTitle("Muon Y position [m]");
+    hy->GetYaxis()->SetTitle("Number of Photons Detected");
     TH2D *hz = new TH2D ("Number of Hits vs Z", "Number of Hits vs Z", 20, 0.0, 0.2, 8, 0, 40);
+    hz->GetXaxis()->SetTitle("Muon Z position [m]");
+    hz->GetYaxis()->SetTitle("Number of Photons Detected");
 
-
+//-----------------BEGIN FOR HOLE 1---------------------------------------------------------------------------------
     TH1D *h1 = new TH1D ("H1", "H1", 40,0, 40);
     h1->SetStats(false);
     h1->SetLineColor(1);
@@ -45,7 +55,10 @@ int main() {
         hz->Fill(muons[i].GetVtx(2),hits);
 
     }//End of for loop
+//-----------------END OF HOLE 1------------------------------------------------------------------------------------
 
+
+//-----------------BEGIN FOR HOLE 2---------------------------------------------------------------------------------
     TH1D *h2 = new TH1D ("H2", "H2", 40,0, 40);
     h2->SetStats(false);
     h2->SetLineColor(2);
@@ -61,6 +74,9 @@ int main() {
 
 
     }//End of for loop
+//-----------------END OF HOLE 2------------------------------------------------------------------------------------
+
+//-----------------BEGIN FOR HOLE 3---------------------------------------------------------------------------------
     TH1D *h3 = new TH1D ("H3", "H3", 40,0, 40);
     h3->SetStats(false);
     h3->SetLineColor(46);
@@ -75,6 +91,10 @@ int main() {
 
 
     }//End of for loop
+//-----------------END OF HOLE 3------------------------------------------------------------------------------------
+
+
+//-----------------BEGIN FOR HOLE 4---------------------------------------------------------------------------------
     TH1D *h4 = new TH1D ("H4", "H4", 40,0, 40);
     h4->SetStats(false);
     h4->SetLineColor(4);
@@ -89,6 +109,11 @@ int main() {
 
 
     }//End of for loop
+//-----------------END OF HOLE 4------------------------------------------------------------------------------------
+
+
+
+//-----------------BEGIN FOR HOLE 5---------------------------------------------------------------------------------
     TH1D *h5 = new TH1D ("H5", "H5", 40,0, 40);
     h5->SetStats(false);
     h5->SetLineColor(28);
@@ -103,6 +128,12 @@ int main() {
 
 
     }//End of for loop
+//-----------------END OF HOLE 5------------------------------------------------------------------------------------
+
+
+
+
+//-----------------BEGIN FOR HOLE 6---------------------------------------------------------------------------------
     TH1D *h6 = new TH1D ("H6", "H6", 40,0, 40);
     h6->SetStats(false);
     h6->SetLineColor(6);
@@ -117,6 +148,12 @@ int main() {
 
 
     }//End of for loop
+//-----------------END OF HOLE 6------------------------------------------------------------------------------------
+
+
+
+
+//-----------------BEGIN FOR HOLE 7---------------------------------------------------------------------------------
     TH1D *h7 = new TH1D ("H7", "H7", 40,0, 40);
     h7->SetStats(false);
     h7->SetLineColor(12);
@@ -131,6 +168,7 @@ int main() {
 
 
     }//End of for loop
+//-----------------END OF HOLE 7------------------------------------------------------------------------------------
 
 
 
@@ -159,7 +197,6 @@ int main() {
     h6->Draw("same");
     h1->Draw("same");
     l1->Draw("same");
-    //c1->Update();
     c1->Write();
 
     TCanvas *cx = new TCanvas("HitsX", "HitsX");
@@ -174,26 +211,9 @@ int main() {
     hz->Draw("COLZ");
     cz->Write();
 
-/*    TFile *f1 = new TFile("SimulationResults.root", "RECREATE");
-
-    TH2D *h1 = new TH2D ("Number of Hits", "Number of Hits", 20, -1, 0,100 , 0, 100);
-    //TH1D *h1 = new TH1D ("H1", "H1", 100,0, 100);
-    std::cout<< muons[0].GetVtx(0) << " "<< muons[0].GetVtx(1) << " "<< muons[0].GetVtx(2) << std::endl;
-    for (int i = 0; i<20;i++){
-        // int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-        int hits = PhotonsDetected(muons[0], pmtPos, withWLS, pmtDiameter);
-
-        if (verbosity && i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h1->Fill(pmtPos[0],hits);
-        pmtPos[0] = pmtPos[0] - 0.05;
-
-
-    }//End of for loop
-*/
     f1->Write();
     f1->Close();
 
 
     return 0;
-}
+}//End of the main function.
