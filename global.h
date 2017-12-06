@@ -16,7 +16,7 @@
 
 
 double quartzThickness = 0.01; //in m.
-double quartzPos[3] = {-0.01,0,0.17}; //in m.
+double quartzPos[3] = {-0.01,0,0.18}; //in m.
 double quartzDiameter = 0.15; //in m. These are dummy values.
 double quartzAngle = 48.36 ; //Angle of quartz plate in degrees.
 double quartzRefractiveIndex = 1.5;
