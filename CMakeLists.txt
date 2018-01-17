@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD 11)
 # Find ROOT (required package) in CONFIG mode. Looking for ROOTConfig.cmake.
 # Crucial for loading the proper definitions!
 #
-SET(CMAKE_PREFIX_PATH "/home/mahdi/programs/root/6.10/build")
 
 find_package(ROOT CONFIG REQUIRED)
 if(NOT ROOT_FOUND)
