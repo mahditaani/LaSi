@@ -13,11 +13,17 @@
 #include "photon.h"
 #include "mathematics.h"
 #include "muon.h"
+#include "data.h"
 
 //Variables used from global.
 extern double quartzThickness;
 extern double quartzDiameter;
 extern double quartzAngle;
+extern double pmtRadius;
+extern double WLSLength;
+extern bool withWLS;
+extern double pmtPos[];
+
 
 std::vector<Muon> GenMuons(int n, double eLow, double eHigh);//Function to generate n muons between energies eLow and eHigh.
 
@@ -25,5 +31,8 @@ std::vector<Muon> GenMuons(int n, double eLow, double eHigh);//Function to gener
 int PhotonsDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLength);//Function to calculate how many photons are detected in the pmt.
 
 double PercentDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLength); //Function to calculate the percentage of photons detected, no longer used.
+
+std::vector<detected> photonJourney(Muon _muon);
+
 
 #endif //LASI_GENERATE_H

@@ -13,17 +13,17 @@ double ToDeg(double i){return i*180/PI;}//Converts radians to degrees.
 bool InSquare(double _vtx[2], double _length){// Function to check if a value is in a square of a given length centered at 0,0.
 
     bool inside = false;
-    if (_vtx[0] > - _length/2 && _vtx[1] < _length/2){inside = true;}
+    if (_vtx[0] > - _length/2 && _vtx[0] < _length/2){inside = true;}
     if (_vtx[1] > - _length/2 && _vtx[1] < _length/2 && inside){inside = true;} else {inside = false;}
 
     return inside;
 
 }// End of InSquare function.
 
-bool InSquare(double _vtx[2], double _length, double x, double y){// Function to check if a calue is in a square of a given length centered at x,y.
+bool InSquare(double _vtx[2], double _length, double x, double y){// Function to check if a value is in a square of a given length centered at x,y.
 
     bool inside = false;
-    if (_vtx[0] > (- _length/2 + x) && _vtx[1] < (_length/2 +x)){inside = true;}
+    if (_vtx[0] > (- _length/2 + x) && _vtx[0] < (_length/2 +x)){inside = true;}
     if (_vtx[1] > (- _length/2 +y) && _vtx[1] < (_length/2+y) && inside){inside = true;} else {inside = false;}
 
     return inside;

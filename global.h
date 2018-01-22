@@ -10,6 +10,7 @@
 
 //C++ INCLUDES
 #include <vector>
+#include <cstdlib>
 
 //LaSi INCLUDES
 #include "mathematics.h"
@@ -31,9 +32,9 @@ double pmtPos[3] = {0,0,0};//H1  //in m. //THIS DEFINES THE CENTER OF THE GEOMET
 //double pmtPos[3] = {-0.24,0,0};//H7  //in m.
 //double pmtPos[3] = {-0.28,0,0};//H8  //in m.
 double pmtDiameter = 0.078; //in m.
+double pmtRadius = pmtDiameter/2; //in m.
 
-
-bool withWLS = false;
+bool withWLS = true;
 double WLSLength = 0.28; //in m.
 double WLSThickness = 0.013; //in m.
 
@@ -53,6 +54,9 @@ inline void initRan(){
 inline void initRan(int i){
     genRan = new TRandom(i);
 }
+
+
+
 
 
 #endif //LASI_GLOBAL_H

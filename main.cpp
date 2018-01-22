@@ -15,7 +15,7 @@
 
 int main() {//Start of the main function.
 
-    bool verbosity = true;
+    bool verbosity = false;
     int seed = 12345;
 
     initRan(seed); //Start the random number generator.
@@ -25,7 +25,7 @@ int main() {//Start of the main function.
     if (verbosity) {std::cout<<"Generating "<<numToGen<<" muons."<<std::endl;}
 
     std::vector<Muon> muons = GenMuons(numToGen,0.5,1); //Generates muons (number of muons, lowest energy, highest energy) uniform energy distribution
-
+/*
     TFile *f1 = new TFile("SimulationResults.root", "RECREATE");
 
     TH2D *hx = new TH2D ("Number of Hits vs X", "Number of Hits vs X", 20, 0.0, 0.2, 8, 0, 40);
@@ -213,7 +213,23 @@ int main() {//Start of the main function.
 
     f1->Write();
     f1->Close();
+*/
+/*
+    for (int i = 0; i < numToGen; i++){
 
+        photonJourney(muons[i]);
+    }
+  */
+    //for (int j = 0; j < numToGen; j++) {
+    for (int j = 0; j < 1; j++) {
 
+        auto a = photonJourney(muons[j]);
+        std::cout << "Number of detected phots: " << a.size() << std::endl;
+        for (int i = 0; i < a.size(); i++) {
+
+            std::cout << "wavelength: " << a[i].wavelength;
+            std::cout << ", material: " << a[i].material << std::endl;
+        }
+    }
     return 0;
 }//End of the main function.
