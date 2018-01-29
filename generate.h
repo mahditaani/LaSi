@@ -14,6 +14,7 @@
 #include "mathematics.h"
 #include "muon.h"
 #include "data.h"
+#include "WLS.h"
 
 //Variables used from global.
 extern double quartzThickness;
@@ -33,6 +34,8 @@ int PhotonsDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLengt
 double PercentDetected(Muon _muon, double pmtVtx[3], bool withWLSP, double pmtLength); //Function to calculate the percentage of photons detected, no longer used.
 
 std::vector<detected> photonJourney(Muon _muon);
+
+std::vector<detected> BasicLab(Muon _muon, WLS _wls);
 
 
 #endif //LASI_GENERATE_H

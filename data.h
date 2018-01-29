@@ -11,8 +11,8 @@
 
 struct detected {
 
-    double wavelength;
-    std::string material;
+    double wavelength; // Stores the wavelength of the detected photon.
+    std::string material; // Stores whether the photon was detected in the PMT or WLS.
 
 };
 

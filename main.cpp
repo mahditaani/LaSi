@@ -12,6 +12,7 @@
 #include "TFile.h"
 #include "TStyle.h"
 #include "TLegend.h"
+#include "WLS.h"
 
 int main() {//Start of the main function.
 
@@ -25,6 +26,9 @@ int main() {//Start of the main function.
     if (verbosity) {std::cout<<"Generating "<<numToGen<<" muons."<<std::endl;}
 
     std::vector<Muon> muons = GenMuons(numToGen,0.5,1); //Generates muons (number of muons, lowest energy, highest energy) uniform energy distribution
+
+    WLS wlsPlate(0.28);
+
 /*
     TFile *f1 = new TFile("SimulationResults.root", "RECREATE");
 
@@ -221,9 +225,10 @@ int main() {//Start of the main function.
     }
   */
     //for (int j = 0; j < numToGen; j++) {
-    for (int j = 0; j < 1; j++) {
+    for (int j = 0; j < 10; j++) {
 
-        auto a = photonJourney(muons[j]);
+//        auto a = photonJourney(muons[j]);
+        auto a = BasicLab(muons[j],wlsPlate);
         std::cout << "Number of detected phots: " << a.size() << std::endl;
         for (int i = 0; i < a.size(); i++) {
 
