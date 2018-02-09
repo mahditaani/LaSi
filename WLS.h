@@ -8,6 +8,8 @@
 #include <random>
 #include <TRandom.h>
 #include "photon.h"
+#include <cmath>
+
 
 extern TRandom* genRan;
 
@@ -16,6 +18,7 @@ class WLS {
     float lengthX;
     float lengthY;
     float refractiveIndex = 1.58;
+    float thickness = 0.013;
 
 
 /*
@@ -32,10 +35,20 @@ class WLS {
     float qe = 92;
     static const int absorbArraySize = 15;
     static const int emitArraySize = 15;
+    float absorbScale = 2.6; // The scale variables are used when the absorption/emission is given per unit thickness
+    float emitScale = 1; // then scale according to your wls thickness.
     float absorbWavelength[absorbArraySize] = {280,290,300,310,320,330,340,350,360,370,380,390,400,410,420};
-    float absorb[absorbArraySize] ={0.54, 0.68, 0.89, 0.97, 1,1,1,1,1,1,1,0.94,0.65,0.039,0.0};
+    float absorb[absorbArraySize] ={pow(0.54,absorbScale), pow(0.68,absorbScale), pow(0.89,absorbScale),
+                                    pow(0.97,absorbScale), pow(1,absorbScale), pow(1,absorbScale), pow(1,absorbScale),
+                                    pow(1,absorbScale), pow(1,absorbScale), pow(1,absorbScale), pow(1,absorbScale),
+                                    pow(0.94,absorbScale), pow(0.65,absorbScale), pow(0.039,absorbScale),
+                                    pow(0.0,absorbScale)};
     float emitWavelength[emitArraySize] = {390,400,410,420,430,440,450,460,470,480,490,500,510,520,530};
-    float emit[emitArraySize] = {0.0, 0.1,0.71,0.98,0.91,0.63, 0.49,0.35,0.20,0.13,0.081,0.052,0.03,0.021,0};
+    float emit[emitArraySize] = {pow(0.0,emitScale), pow(0.1,emitScale), pow(0.71,emitScale), pow(0.98,emitScale),
+                                 pow(0.91,emitScale), pow(0.63,emitScale), pow(0.49,emitScale), pow(0.35,emitScale),
+                                 pow(0.20,emitScale), pow(0.13,emitScale), pow(0.081,emitScale), pow(0.052,emitScale),
+                                 pow(0.03,emitScale), pow(0.021,emitScale), pow(0,emitScale)};
+
 
 public:
 
@@ -45,12 +58,18 @@ public:
     WLS(float l[2]);
     ~WLS(){}
 
+    int GetAbsorbArraySize();
+    int GetEmitArraySize();
+    std::vector<float*> GetAbsorbSpectrum();
+    std::vector<float*> GetEmitSpectrum();
+
     float GetQE();
     bool QE();
     float GetLength(int i);
     bool Absorb(double l);
     std::vector<Photon> Emit();
     float GetRefractiveIndex();
+    float GetThickness();
 
 };
 

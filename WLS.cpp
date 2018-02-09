@@ -47,6 +47,44 @@ float WLS::GetRefractiveIndex() {
 
     return refractiveIndex;
 }
+float WLS::GetThickness() {
+
+    return thickness;
+
+}
+
+
+
+int WLS::GetAbsorbArraySize(){
+
+    return absorbArraySize;
+}
+
+int WLS::GetEmitArraySize(){
+
+    return emitArraySize;
+}
+
+std::vector<float*> WLS::GetAbsorbSpectrum(){
+    std::vector<float*> v;
+    float a[1] = {absorbArraySize};
+    v.push_back(a);
+    v.push_back(absorbWavelength);
+    v.push_back(absorb);
+    return v;
+}
+std::vector<float*> WLS::GetEmitSpectrum(){
+    std::vector<float*> v;
+    float a[1] = {emitArraySize};
+    v.push_back(a);
+    v.push_back(emitWavelength);
+    v.push_back(emit);
+    return v;
+
+}
+
+
+
 bool WLS::QE(){
 
     std::default_random_engine generator(rand());

@@ -15,10 +15,11 @@
 //LaSi INCLUDES
 #include "mathematics.h"
 
+bool verbosity = true;
 
 double quartzThickness = 0.01; //in m.
 double quartzPos[3] = {-0.01,0,0.18}; //in m.
-double quartzDiameter = 0.15; //in m. These are dummy values.
+double quartzDiameter = 0.15; //in m.
 double quartzAngle = 48.36 ; //Angle of quartz plate in degrees.
 double quartzRefractiveIndex = 1.5;
 double pathLength = quartzThickness/sin(ToRad(quartzAngle)); //Gives the path length inside the quartz plate.
@@ -34,9 +35,6 @@ double pmtPos[3] = {0,0,0};//H1  //in m. //THIS DEFINES THE CENTER OF THE GEOMET
 double pmtDiameter = 0.078; //in m.
 double pmtRadius = pmtDiameter/2; //in m.
 
-bool withWLS = true;
-double WLSLength = 0.28; //in m.
-double WLSThickness = 0.013; //in m.
 
 double wavelengthLow = 2.75e-7;
 double wavelengthHigh = 6.25e-7;
@@ -55,8 +53,18 @@ inline void initRan(int i){
     genRan = new TRandom(i);
 }
 
+void ScaleArray(int n, float * a, float s){
+    for (int i = 0; i < n; i++){
+        a[i] *=s;
+    }
 
+}
 
+inline void ChooseHole(int select){
+
+    pmtPos[0] = -0.04*(select-1);
+
+}
 
 
 #endif //LASI_GLOBAL_H

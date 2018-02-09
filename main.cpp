@@ -1,9 +1,11 @@
 //C++ INCLUDES
 #include <iostream>
+#include <cstdlib>
 
 //LaSi INCLUDES
 #include "global.h"
 #include "generate.h"
+#include "analysis.h"
 
 //ROOT INCLUDES
 #include "TH1D.h"
@@ -14,13 +16,17 @@
 #include "TLegend.h"
 #include "WLS.h"
 
+
+extern bool verbosity;
+
 int main() {//Start of the main function.
 
-    bool verbosity = false;
+    verbosity = false;
     int seed = 12345;
 
     initRan(seed); //Start the random number generator.
     if (verbosity) {std::cout<<"Random number seed: "<<seed<<std::endl;}
+
 
     int numToGen = 1000; //Number of muons to generate.
     if (verbosity) {std::cout<<"Generating "<<numToGen<<" muons."<<std::endl;}
@@ -31,150 +37,6 @@ int main() {//Start of the main function.
 
 /*
     TFile *f1 = new TFile("SimulationResults.root", "RECREATE");
-
-    TH2D *hx = new TH2D ("Number of Hits vs X", "Number of Hits vs X", 20, 0.0, 0.2, 8, 0, 40);
-    hx->GetXaxis()->SetTitle("Muon X position [m]");
-    hx->GetYaxis()->SetTitle("Number of Photons Detected");
-    TH2D *hy = new TH2D ("Number of Hits vs Y", "Number of Hits vs Y", 20, -0.1, 0.1, 8, 0, 40);
-    hy->GetXaxis()->SetTitle("Muon Y position [m]");
-    hy->GetYaxis()->SetTitle("Number of Photons Detected");
-    TH2D *hz = new TH2D ("Number of Hits vs Z", "Number of Hits vs Z", 20, 0.0, 0.2, 8, 0, 40);
-    hz->GetXaxis()->SetTitle("Muon Z position [m]");
-    hz->GetYaxis()->SetTitle("Number of Photons Detected");
-
-//-----------------BEGIN FOR HOLE 1---------------------------------------------------------------------------------
-    TH1D *h1 = new TH1D ("H1", "H1", 40,0, 40);
-    h1->SetStats(false);
-    h1->SetLineColor(1);
-    h1->SetLineWidth(5);
-
-    for (int i = 0; i<numToGen;i++){
-        int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-        std::cout << "Number of hits: " << hits << std::endl;
-        if (verbosity && i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h1->Fill(hits);
-        hx->Fill(muons[i].GetVtx(0),hits);
-        hy->Fill(muons[i].GetVtx(1),hits);
-        hz->Fill(muons[i].GetVtx(2),hits);
-
-    }//End of for loop
-//-----------------END OF HOLE 1------------------------------------------------------------------------------------
-
-
-//-----------------BEGIN FOR HOLE 2---------------------------------------------------------------------------------
-    TH1D *h2 = new TH1D ("H2", "H2", 40,0, 40);
-    h2->SetStats(false);
-    h2->SetLineColor(2);
-    h2->SetLineWidth(5);
-    pmtPos[0] = pmtPos[0] - 0.04;
-    std::cout <<pmtPos[0]<<std::endl;
-    for (int i = 0; i<numToGen;i++){
-        int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-
-        if (verbosity && i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h2->Fill(hits);
-
-
-    }//End of for loop
-//-----------------END OF HOLE 2------------------------------------------------------------------------------------
-
-//-----------------BEGIN FOR HOLE 3---------------------------------------------------------------------------------
-    TH1D *h3 = new TH1D ("H3", "H3", 40,0, 40);
-    h3->SetStats(false);
-    h3->SetLineColor(46);
-    h3->SetLineWidth(5);
-    pmtPos[0] = pmtPos[0] - 0.04;
-    for (int i = 0; i<numToGen;i++){
-        int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-
-        if (verbosity &&i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h3->Fill(hits);
-
-
-    }//End of for loop
-//-----------------END OF HOLE 3------------------------------------------------------------------------------------
-
-
-//-----------------BEGIN FOR HOLE 4---------------------------------------------------------------------------------
-    TH1D *h4 = new TH1D ("H4", "H4", 40,0, 40);
-    h4->SetStats(false);
-    h4->SetLineColor(4);
-    h4->SetLineWidth(5);
-    pmtPos[0] = pmtPos[0] - 0.04;
-    for (int i = 0; i<numToGen;i++){
-        int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-
-        if (verbosity && i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h4->Fill(hits);
-
-
-    }//End of for loop
-//-----------------END OF HOLE 4------------------------------------------------------------------------------------
-
-
-
-//-----------------BEGIN FOR HOLE 5---------------------------------------------------------------------------------
-    TH1D *h5 = new TH1D ("H5", "H5", 40,0, 40);
-    h5->SetStats(false);
-    h5->SetLineColor(28);
-    h5->SetLineWidth(5);
-    pmtPos[0] = pmtPos[0] - 0.04;
-    for (int i = 0; i<numToGen;i++){
-        int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-
-        if (verbosity && i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h5->Fill(hits);
-
-
-    }//End of for loop
-//-----------------END OF HOLE 5------------------------------------------------------------------------------------
-
-
-
-
-//-----------------BEGIN FOR HOLE 6---------------------------------------------------------------------------------
-    TH1D *h6 = new TH1D ("H6", "H6", 40,0, 40);
-    h6->SetStats(false);
-    h6->SetLineColor(6);
-    h6->SetLineWidth(5);
-    pmtPos[0] = pmtPos[0] - 0.04;
-    for (int i = 0; i<numToGen;i++){
-        int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-
-        if (verbosity && i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h6->Fill(hits);
-
-
-    }//End of for loop
-//-----------------END OF HOLE 6------------------------------------------------------------------------------------
-
-
-
-
-//-----------------BEGIN FOR HOLE 7---------------------------------------------------------------------------------
-    TH1D *h7 = new TH1D ("H7", "H7", 40,0, 40);
-    h7->SetStats(false);
-    h7->SetLineColor(12);
-    h7->SetLineWidth(5);
-    pmtPos[0] = pmtPos[0] - 0.04;
-    for (int i = 0; i<numToGen;i++){
-        int hits = PhotonsDetected(muons[i], pmtPos, withWLS, pmtDiameter);
-
-        if (verbosity && i % 100 == 0) {std::cout <<"Processing number "<<i <<std::endl; }
-
-        h7->Fill(hits);
-
-
-    }//End of for loop
-//-----------------END OF HOLE 7------------------------------------------------------------------------------------
-
-
 
     TCanvas *c1 = new TCanvas("Hits", "Hits");
     c1->SetLogy();
@@ -214,27 +76,21 @@ int main() {//Start of the main function.
     TCanvas *cz = new TCanvas("HitsZ", "HitsZ");
     hz->Draw("COLZ");
     cz->Write();
-
-    f1->Write();
-    f1->Close();
 */
-/*
-    for (int i = 0; i < numToGen; i++){
+    TFile *f = new TFile("Test.root", "RECREATE");
+    SaveSettings(f,wlsPlate);
+    SaveHits(f,wlsPlate,muons,"Hole1");
+    ChooseHole(2);
+    SaveHits(f,wlsPlate,muons,"Hole2");
+    ChooseHole(3);
+    SaveHits(f,wlsPlate,muons,"Hole3");
+    ChooseHole(4);
+    SaveHits(f,wlsPlate,muons,"Hole4");
+    ChooseHole(5);
+    SaveHits(f,wlsPlate,muons,"Hole5");
 
-        photonJourney(muons[i]);
-    }
-  */
-    //for (int j = 0; j < numToGen; j++) {
-    for (int j = 0; j < 10; j++) {
+    f->Close();
 
-//        auto a = photonJourney(muons[j]);
-        auto a = BasicLab(muons[j],wlsPlate);
-        std::cout << "Number of detected phots: " << a.size() << std::endl;
-        for (int i = 0; i < a.size(); i++) {
 
-            std::cout << "wavelength: " << a[i].wavelength;
-            std::cout << ", material: " << a[i].material << std::endl;
-        }
-    }
     return 0;
 }//End of the main function.
