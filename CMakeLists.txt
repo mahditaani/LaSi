@@ -21,5 +21,5 @@ include(${ROOT_USE_FILE})
 include_directories(${ROOT_INCLUDE_DIR})
 
 
-add_executable(LaSi main.cpp mathematics.h mathematics.cpp physics.h physics.cpp generate.h global.h generate.cpp photon.h muon.h muon.cpp WLS.cpp WLS.h data.h analysis.cpp analysis.h)
+add_executable(LaSi src/main.cpp inc/mathematics.h src/mathematics.cpp inc/physics.h src/physics.cpp inc/generate.h inc/global.h src/generate.cpp inc/photon.h inc/muon.h src/muon.cpp src/WLS.cpp inc/WLS.h inc/data.h src/analysis.cpp inc/analysis.h)
 target_link_libraries(LaSi ${ROOT_LIBRARIES})
